@@ -3,5 +3,5 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/master-modulo07-Cloud/',
+  base: process.env.GITHUB_ACTIONS === 'true' ? '/master-modulo07-Cloud/' : '/',
 });
