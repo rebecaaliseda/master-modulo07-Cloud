@@ -1,75 +1,71 @@
-# React + TypeScript + Vite
+# Laboratorio correspondiente al Módulo 7 - Cloud del Máster Front End XVII.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación desarrollada con React y Vite que muestra una página informativa utilizada como ejemplo para realizar los despliegues solicitados en el laboratorio.
 
-Currently, two official plugins are available:
+# Ejercicio obligatorio
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 1. Despliegue manual en GitHub Pages
 
-## React Compiler
+Se configuró GitHub Pages para publicar la aplicación generada por Vite.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Para ello se realizaron los siguientes pasos:
 
-## Expanding the ESLint configuration
+- Instalación de `gh-pages`.
+- Configuración de la propiedad `base` en `vite.config.ts`.
+- Generación de la carpeta `dist`.
+- Publicación manual: https://rebecaaliseda.github.io/master-modulo07-Cloud/
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 2. Automatización con GitHub Actions
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Se creó un workflow de GitHub Actions para automatizar el proceso de construcción y despliegue.
+Archivo creado: .github/workflows/deploy.yml. Encargado de automatizar el despliegue en GitHub Pages.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Cada vez que se realiza un push sobre la rama principal se ejecuta:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+npm install
+npm run build
 
-```
+y posteriormente se actualiza GitHub Pages de forma automática.
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+# Ejercicios opcionales
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 1. Despliegue manual en Render
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Se realizó un despliegue manual mediante Render usando un Static Site.
 
-```
+- Configuración utilizada: npm install && npm run build
+- Publish Directory: dist
+- URL: https://master-modulo07-cloud.onrender.com
+
+## 2. Despliegue en Render utilizando Docker
+
+Se configuró la aplicación para ejecutarse dentro de un contenedor Docker.
+
+Se creó el archivo Dockerfile. Define la imagen Docker utilizada para desplegar la aplicación. Responsable de:
+
+- Instalar dependencias.
+- Construir la aplicación.
+- Servir el contenido generado.
+- Exponer el puerto 3000.
+
+Se creó el archivo .dockerignore para evitar copiar directorios innecesarios al contenedor.
+
+Se creó un Web Service en Render utilizando el Dockerfile incluido en el repositorio.
+
+### Construcción de imagen
+
+docker build -t modulo07-cloud .
+
+### Ejecución local
+
+docker run -p 3000:3000 modulo07-cloud
+
+# Resultado
+
+Se ha conseguido:
+
+- Despliegue manual en GitHub Pages.
+- Automatización mediante GitHub Actions.
+- Despliegue manual en Render.
+- Dockerización de la aplicación.
+- Despliegue de la imagen Docker en Render.
